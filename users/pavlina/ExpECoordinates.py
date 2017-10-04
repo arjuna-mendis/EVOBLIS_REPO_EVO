@@ -40,12 +40,12 @@ expECoord = {
 'park': (180,  0),
 'dispBeakerA': (0,134),
 'dispBeakerB': (50,134),
-'dispBeakerC': (48,203),
+'dispBeakerC': (43,203),
 'dispBeakerD': (104,134),
 'dispBeakerE': (155,134),
 'dispBeakerF': (155,10),
-'dispBeakerG': (48,285),
-'dispBeakerH': (48,360)
+'dispBeakerG': (43,285),
+'dispBeakerH': (43,360)
 }
 
 

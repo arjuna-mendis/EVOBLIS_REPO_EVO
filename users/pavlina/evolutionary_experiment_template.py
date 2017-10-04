@@ -16,7 +16,7 @@ sys.path.append('../../api')
 sys.path.append('../../settings')
 
 NUM_REPLICA = 3 # number of replica
-NUM_MFC = 6 # number of mfc that we have for the experiment
+NUM_MFC = 24 # number of mfc that we have for the experiment
 IND_SIZE = 3 # the number of variables of the experiment
 NGEN = 15  # number of generations for which the evolution runs
 NUM_IND = int(math.floor(NUM_MFC/NUM_REPLICA))  # number of individuals in each population

@@ -33,10 +33,11 @@ from ExpECoordinates import expECoord
 
 #pump blocking method does not work. using the older method insted
 #Puvlina: change this if liqud filled to the tubs are not enough
-TIMECORRECTION=0.01
+TIMECORRECTION=0.12 # will fill upto 40mm
 
-
-EXPERIMENT_TIME = 60*3 #24*60*60  # in seconds
+# This is the Experiment TIME between evaluations.. 
+EXPERIMENT_TIME = 60*10 #24*60*60  # in seconds
+#EXPERIMENT_TIME = 10 # for testing
 
 # Name for the datalogger
 fileName = time.strftime("%Y-%m-%d %H%M%S")
@@ -44,7 +45,7 @@ fileName = time.strftime("%Y-%m-%d %H%M%S")
 
 #TODO: Adjust these constants properly
 S_PER_ML = 20 # Seconds per ml to use with peristaltic pumps
-ML_TO_FEED_EACH_MFC = 10 #ml used to feed each MFC
+ML_TO_FEED_EACH_MFC = 10 #ml used to feed each MFC  #roughlt 5mm =1mm of liqud
 SAFETY_FACTOR = 1.5
 
 
@@ -125,7 +126,7 @@ class MFCsEvolutionaryExperiment:
         #self.powerOutputs.turnOnD8(ml*S_PER_ML)
         #print (ml*S_PER_ML)
         self.powerOutputs.turnOnD8()
-        time.sleep(ml*S_PER_ML*.TIMECORRECTION)
+        time.sleep(ml*S_PER_ML*TIMECORRECTION)
         self.powerOutputs.turnOffD8()
 
     def dispense_reagent3(self, ml):
@@ -163,28 +164,28 @@ class MFCsEvolutionaryExperiment:
             # Example:
             print "mix in beaker---------------------------"
             if index ==0:
-                self.head.moveToCoord(expECoord['beakerA']) #You need to change for each recipe or clean them!
+                self.head.moveToCoord(expECoord['dispBeakerA']) #You need to change for each recipe or clean them!
                 print "Move to beaker A"
             if index ==1:
-                self.head.moveToCoord(expECoord['beakerB']) 
+                self.head.moveToCoord(expECoord['dispBeakerB']) 
                 print "Move to beaker B"
             if index ==2:
-                self.head.moveToCoord(expECoord['beakerC'])
+                self.head.moveToCoord(expECoord['dispBeakerC'])
                 print "Move to beaker C"
             if index ==3:
-                self.head.moveToCoord(expECoord['beakerD'])
+                self.head.moveToCoord(expECoord['dispBeakerD'])
                 print "Move to beaker D"
             if index ==4:
-                self.head.moveToCoord(expECoord['beakerE']) 
+                self.head.moveToCoord(expECoord['dispBeakerE']) 
                 print "Move to beaker E"
             if index ==5:
-                self.head.moveToCoord(expECoord['beakerF']) 
+                self.head.moveToCoord(expECoord['dispBeakerF']) 
                 print "Move to beaker F"
             if index ==6:
-                self.head.moveToCoord(expECoord['beakerG']) 
+                self.head.moveToCoord(expECoord['dispBeakerG']) 
                 print "Move to beaker G"
             if index ==7:
-                self.head.moveToCoord(expECoord['beakerH']) 
+                self.head.moveToCoord(expECoord['dispBeakerH']) 
                 print "Move to beaker H"
             print(reagent1 * self.VOL_TO_PREPARE)
             self.dispense_reagent1(reagent1 * self.VOL_TO_PREPARE)
@@ -263,8 +264,8 @@ class MFCsEvolutionaryExperiment:
 
     def sampleMFCs(self):
         #This is to use the simulator, use the other one for real experiments
-        new_samples = self.agilent.fakeAgilentScan()
-        #new_samples = self.agilent.agilentScan()
+        #new_samples = self.agilent.fakeAgilentScan()
+        new_samples = self.agilent.agilentScan()
 
         if new_samples is not None:
             self.voltage_samples.append(new_samples)
@@ -282,8 +283,8 @@ class MFCsEvolutionaryExperiment:
         self.voltage_samples = []
 
         #This line is for testing the simulator (samples every 2 seconds), use the other for real experiments
-        schedule.every(2).seconds.do(self.sampleMFCs)
-        #schedule.every(3).minutes.do(self.sampleMFCs)
+        #schedule.every(2).seconds.do(self.sampleMFCs)
+        schedule.every(1).minutes.do(self.sampleMFCs)
 
 
         fitness = []
